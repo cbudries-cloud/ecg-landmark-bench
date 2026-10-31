@@ -1,0 +1,10 @@
+# Manual review of records whose labeled beats contain an RR gap > 1.6x the
+# record's median RR near the scoring window. Reviewed on development-style
+# private plots (data/private/annotated/) BEFORE any model or baseline result
+# existed. "complete" = every visible QRS in the gap region is labeled (the gap
+# is a real pause / irregular rhythm). "incomplete" would exclude the record.
+reviewed_by: "Claude (assistant), 2026-10-28; awaiting human spot-check"
+records:
+  51:  {verdict: complete, note: "Two real pauses (4.47-5.91 s, 6.44-8.08 s); no QRS in either gap."}
+  96:  {verdict: complete, note: "Irregular rhythm; 1.82-2.91 s gap has no unlabeled QRS."}
+  112: {verdict: complete, note: "Irregular rhythm; 1.71-2.96 s gap has no unlabeled QRS."}

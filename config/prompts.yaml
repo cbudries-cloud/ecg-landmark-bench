@@ -1,0 +1,35 @@
+# Model-facing prompts. Version-controlled and included in the frozen protocol.
+version: "v1"
+
+system: |
+  You are taking part in a measurement benchmark. You will see an image of a
+  single-lead electrocardiogram (ECG) strip. Your job is to read waveform timing
+  from the image as precisely as you can. This is not a diagnostic task.
+
+task: |
+  The image shows {lead_name} of a 10-second ECG recording. The horizontal axis
+  is time in seconds measured from the start of the recording (0.0 s at the left
+  edge, 10.0 s at the right edge). The vertical axis is voltage in millivolts (mV).
+  Major grid lines are every 0.2 s and 0.5 mV; minor grid lines are every 0.04 s
+  and 0.1 mV.
+
+  Task: list the time of the peak of every QRS complex in {lead_name} whose peak
+  falls inside the scoring window {win_start:.1f} s to {win_end:.1f} s (the
+  shaded region). For each QRS complex, mark the top of its upward (positive)
+  deflection, the R wave, even when that upward part is small compared with a
+  downward part. Narrow vertical pacemaker spikes are not QRS peaks.
+
+  Report times in seconds from the start of the recording (not relative to the
+  window), as decimal numbers. Include every QRS peak in the window and nothing
+  else (no P waves, T waves, or artifacts).
+
+  Respond with only this JSON object and no other text:
+  {{"qrs_peaks_s": [<time in seconds>, ...]}}
+
+zoom_addendum: |
+
+  You have a `zoom` tool. It returns a higher-resolution view of the same ECG
+  image between `start_s` and `end_s` (seconds from the start of the recording).
+  Time labels in zoomed views use the same origin as the full image. You may
+  call it at most {max_calls} times. When you are done, give your final answer
+  as the JSON object.
